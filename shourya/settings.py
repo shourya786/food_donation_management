@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = "^ex-t!&e$gvoo7j%7-posw$h3x=_y4^&myciy6lwgl4892x2^-"
 if not SECRET_KEY:
     if not DEBUG:
         raise ValueError('Set SECRET_KEY in the deployment environment.')

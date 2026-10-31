@@ -22,13 +22,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ur5ke=k(e!=_!bwm-_wjm@)3l%-=koq(jtyqm3h$$yu%*ze6tf'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ValueError('Set SECRET_KEY in the deployment environment.')
+    SECRET_KEY = 'local-development-only'
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv('ALLOWED_HOSTS', '').split(',')
+    if host.strip()
+]
+for vercel_host in ('VERCEL_URL', 'VERCEL_PROJECT_PRODUCTION_URL'):
+    host = os.getenv(vercel_host)
+    if host:
+        ALLOWED_HOSTS.append(host)
+ALLOWED_HOSTS.extend(['localhost', '127.0.0.1'])
 
 
 # Application definition

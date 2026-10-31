@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGO Directory - Food Donation</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrap {
+      width: min(1200px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .btn-logout {
+      background: #ef4444;
+      color: white !important;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background 0.2s !important;
+    }
+
+    .btn-logout:hover {
+      background: #dc2626 !important;
+    }
+
+    /* MAIN CONTENT AREA - NGO LIST ONLY */
+    main {
+      flex: 1;
+      padding: 45px 0 80px;
+    }
+
+    .directory-header {
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #e0e7ff;
+      color: #3730a3;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .directory-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .directory-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* GRID */
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .ngo-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .ngo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+
+    .card-tag {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 4px 10px;
+      background: #f1f5f9;
+      color: #475569;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .ngo-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .ngo-location {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+
+    .ngo-focus {
+      color: #334155;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .ngo-phone {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+
+    .ngo-phone:hover {
+      background: var(--accent-hover);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="wrap">
+      <a class="brand" href="#">
+        <div class="brand-icon">🤝</div>
+        NGO Directory
+      </a>
+      <div class="nav-links">
+        <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="directory-header">
+      <span class="badge">Partner Organizations</span>
+      <h1>Verified NGO List</h1>
+      <p>Connect with local NGOs working to distribute food and essential support to communities.</p>
+    </div>
+
+    <div class="directory-grid">
+      
+      {% if user_profiles %}
+        {% for profile in user_profiles %}
+          {% if profile.role|lower == 'ngo' %}
+          <article class="ngo-card">
+            <div>
+              <span class="card-tag">Registered NGO</span>
+              <h3>{{ profile.user.first_name|default:profile.user.username }}</h3>
+              <p class="ngo-location">📍 {{ profile.address|default:"Location not specified" }}</p>
+              <p class="ngo-focus">Email: {{ profile.user.email }}</p>
+            </div>
+            <a class="ngo-phone" href="tel:{{ profile.phone_number|default:'+919876543210' }}">
+              📞 {{ profile.phone_number|default:"+91 98765 43210" }}
+            </a>
+          </article>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      <article class="ngo-card">
+        <div>
+          <span class="card-tag">Food Support</span>
+          <h3>Seva Thali Foundation</h3>
+          <p class="ngo-location">📍 New Delhi</p>
+          <p class="ngo-focus">Surplus-food collection and daily community meals.</p>
+        </div>
+        <a class="ngo-phone" href="tel:+919876543210">📞 +91 98765 43210</a>
+      </article>
+
+      <article class="ngo-card">
+        <div>
+          <span class="card-tag">Child Care</span>
+          <h3>Udaan Child Care</h3>
+          <p class="ngo-location">📍 Gurugram</p>
+          <p class="ngo-focus">Nutritious meals and learning support for children.</p>
+        </div>
+        <a class="ngo-phone" href="tel:+919874520118">📞 +91 98745 20118</a>
+      </article>
+
+      <article class="ngo-card">
+        <div>
+          <span class="card-tag">Ration Kits</span>
+          <h3>Ann Seva Network</h3>
+          <p class="ngo-location">📍 Noida</p>
+          <p class="ngo-focus">Monthly ration kits for low-income households.</p>
+        </div>
+        <a class="ngo-phone" href="tel:+919812345670">📞 +91 98123 45670</a>
+      </article>
+
+      <article class="ngo-card">
+        <div>
+          <span class="card-tag">Elder Support</span>
+          <h3>Saathi Elder Care</h3>
+          <p class="ngo-location">📍 Faridabad</p>
+          <p class="ngo-focus">Meals, medicine delivery, and companionship for seniors.</p>
+        </div>
+        <a class="ngo-phone" href="tel:+919711208865">📞 +91 97112 08865</a>
+      </article>
+
+      <article class="ngo-card">
+        <div>
+          <span class="card-tag">Emergency Aid</span>
+          <h3>Asha Relief Collective</h3>
+          <p class="ngo-location">📍 Ghaziabad</p>
+          <p class="ngo-focus">Rapid meal relief and essential supplies in emergencies.</p>
+        </div>
+        <a class="ngo-phone" href="tel:+919989102030">📞 +91 99891 02030</a>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2026 Food Donation Management System • Verified NGO Directory</p>
+    </div>
+  </footer>
+
+</body>
+</html>

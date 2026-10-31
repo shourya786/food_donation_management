@@ -1,0 +1,466 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Food Donation Management System</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #04f2f2;
+      margin: 0;
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+     
+      
+    }
+
+
+    /* MAIN CONTAINER */
+
+    .container {
+      width: 900px;
+      min-height: 580px;
+
+      display: flex;
+
+      border-radius: 25px;
+
+      overflow: hidden;
+
+      background: white;
+
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+
+    /* =========================
+       LEFT LOGIN SECTION
+    ========================= */
+
+    .login-section {
+      width: 50%;
+      padding: 45px;
+      background: rgba(187, 225, 245, 0.95);
+    }
+
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 45px;
+    }
+
+
+    .tabs button {
+      width: 50%;
+
+      padding: 12px;
+
+      border: none;
+      border-radius: 8px;
+
+      color: white;
+
+      font-size: 16px;
+
+      cursor: pointer;
+
+      background: linear-gradient(
+        to right,
+        #1c1b1b,
+        #777575
+      );
+    }
+
+
+    .tabs button:last-child {
+      background: linear-gradient(
+        to right,
+        #1c1b1b,
+        #777575
+      );
+    }
+
+
+    .tabs button:hover,
+    form button:hover {
+      transform: scale(1.03);
+      transition: 0.3s;
+    }
+
+
+    /* LOGIN HEADING */
+
+    h2 {
+      color: #18191a;
+      text-align: center;
+
+      font-size: 28px;
+
+      margin-bottom: 30px;
+    }
+
+
+    /* FORM */
+
+    label {
+      display: block;
+
+      margin-top: 14px;
+
+      color: #141313;
+
+      font-weight: bold;
+    }
+
+
+    input,
+    select {
+      width: 100%;
+
+      padding: 12px;
+
+      margin-top: 6px;
+
+      border: 2px solid #bde0fe;
+
+      border-radius: 8px;
+
+      outline: none;
+    }
+
+
+    input:focus,
+    select:focus {
+      border-color: #ff6b6b;
+    }
+
+
+    
+
+
+    /* LOGIN BUTTON */
+
+    .login-submit {
+      width: 100%;
+
+      margin-top: 24px;
+
+      padding: 13px;
+
+      border: none;
+
+      border-radius: 8px;
+
+      background: linear-gradient(
+        to right,
+        #43cea2,
+        #185a9d
+      );
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+
+    #message {
+      text-align: center;
+
+      color: #222121;
+
+      font-weight: bold;
+
+      margin-top: 15px;
+    }
+
+
+    /* =========================
+       RIGHT IMAGE SECTION
+    ========================= */
+
+    .image-section {
+      width: 50%;
+      position: relative;
+      background: #1a2a3a url("{% static 'ngoo.jpg' %}") no-repeat center center / cover;
+    }
+
+
+    /* DARK OVERLAY */
+
+    .image-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+
+    /* HEADING ON IMAGE */
+
+    .image-heading {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 45px 20px 0;
+    }
+
+
+    .image-heading h1 {
+      color: #ffffff;
+      font-size: 40px;
+      margin: 0;
+      font-weight: bold;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+
+    .image-heading h3 {
+      color: #e2e8f0;
+      font-size: 24px;
+      margin-top: 8px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+
+    .image-heading p {
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+
+    /* BOTTOM TEXT */
+
+    .bottom-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      background: rgba(0, 70, 30, 0.85);
+    }
+
+
+    .bottom-text h3 {
+      margin: 0 0 5px;
+      font-size: 20px;
+    }
+
+
+    .bottom-text p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 750px) {
+
+      .container {
+        width: 95%;
+      }
+
+      .image-section {
+        display: none;
+      }
+
+      .login-section {
+        width: 100%;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <div class="container">
+
+
+    <!-- ======================
+         LEFT SIDE - LOGIN
+    ======================= -->
+
+    <div class="login-section">
+
+
+      <div class="tabs">
+        <button onclick="location.href='{% url 'login' %}'">
+          Login
+        </button>
+        <button onclick="location.href='{% url 'register' %}'" style="background: linear-gradient(to right, #43cea2, #185a9d);">
+          Register
+        </button>
+      </div>
+
+
+      <!-- registration form -->
+
+      
+
+        
+        <form id="registerForm" method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+
+            
+
+            <h2>Create Account</h2>
+
+            {% if messages %}
+              {% for message in messages %}
+                <p style="color: #d8000c; text-align: center; font-weight: bold;">{{ message }}</p>
+              {% endfor %}
+            {% endif %}
+
+            <label for="role">Register as</label>
+            <select id="role" name="role" required>
+                <option value="">Select role</option>
+                <option value="NGO">NGO</option>
+               
+                <option value="Public Donor">Public Donor</option>
+            </select>
+
+            <label for="name">Organization / Full Name</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                minlength="2"
+                autocomplete="name"
+                required
+            >
+
+            <label for="registerEmail">Email</label>
+            <input
+                type="email"
+                id="registerEmail"
+                name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+            <label for="registerPassword">Password</label>
+            <input
+                type="password"
+                id="registerPassword"
+                name="password"
+                placeholder="Create a password"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+
+            <button type="submit">Register</button>
+
+        </form>
+
+      
+
+
+      <p id="message"></p>
+
+
+    </div>
+
+
+
+    <!-- ======================
+         RIGHT SIDE - IMAGE
+    ======================= -->
+
+    <div class="image-section">
+
+
+      <div class="image-heading">
+
+        <h1>
+          FOOD DONATION
+        </h1>
+
+        <h3>
+          MANAGEMENT SYSTEM
+        </h3>
+
+        <p>
+          ❤️ Share Food, Share Hope, Share Love ❤️
+        </p>
+
+      </div>
+
+
+      <div class="bottom-text">
+
+        <h3>
+          Together We Can Make a Difference
+        </h3>
+
+        <p>
+          Help People in Need • Reduce Food Waste
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+  <script src="app.js"></script>
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const message = document.getElementById('message');
+
+    if (registerForm && message) {
+      registerForm.addEventListener('submit', function(event) {
+        const password = document.getElementById('registerPassword').value;
+        if (password.length < 8) {
+          event.preventDefault();
+          message.textContent = 'Password must be at least 8 characters.';
+          message.style.color = '#d8000c';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

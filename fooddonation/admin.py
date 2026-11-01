@@ -11,4 +11,3 @@ class FoodDonationAdmin(admin.ModelAdmin):
     list_display = ('title', 'donor', 'food_type', 'status', 'created_at')
     list_filter = ('status', 'food_type')
     search_fields = ('title', 'description', 'pickup_address')
-
